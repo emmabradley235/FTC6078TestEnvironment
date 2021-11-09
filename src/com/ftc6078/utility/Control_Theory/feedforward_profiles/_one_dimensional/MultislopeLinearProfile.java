@@ -1,7 +1,7 @@
 package com.ftc6078.utility.Control_Theory.feedforward_profiles._one_dimensional;
 
 
-import com.ftc6078.utility.Math.MultislopeLinearInterpolator;
+import com.ftc6078.utility.Math.interpolators.MultislopeLinearInterpolator;
 import com.ftc6078.utility.Wrappers_General.TimestampedValue;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.ftc6078.utility.Math;
+package com.ftc6078.utility.Math.interpolators;
 
 
 import com.ftc6078.utility.Wrappers_General.TimestampedValue;
