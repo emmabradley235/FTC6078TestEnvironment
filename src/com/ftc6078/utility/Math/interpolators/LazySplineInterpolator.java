@@ -21,6 +21,8 @@ public class LazySplineInterpolator {
         for(int i = 0; i < interpCount; i++){
             interpolators.add( new CircularLinearInterpolator( timestampedSetpoints.get(i), timestampedSetpoints.get(i+1), circleRadius, lastSlope ) ); // create a linear interpolator between each point
             lastSlope = interpolators.get(i).getLinearComponentInterp().getSlope();
+
+            //System.out.println(interpolators.get(i));
         }
     }
     public LazySplineInterpolator(ArrayList<TimestampedValue> timestampedSetpoints, double circleRadius){

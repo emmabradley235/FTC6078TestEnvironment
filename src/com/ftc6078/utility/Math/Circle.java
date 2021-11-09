@@ -19,7 +19,7 @@ public class Circle {
         this.centerPoint = centerPoint;
         this.radius = radius;
     }
-    public Circle( double radius, Point2d tangentPoint, double slopeAtTangentPoint, boolean centerIsBlowStart, boolean tangentIsAboveCenter ){
+    public Circle( double radius, Point2d tangentPoint, double slopeAtTangentPoint, boolean tangentIsAboveCenter ){
         this.radius = radius;
 
         double centerX, centerY;
@@ -41,15 +41,14 @@ public class Circle {
             double xChange = radius * Math.cos( radialLineAngle );
             double yChange = radius * Math.sin( radialLineAngle );
 
-            if( tangentIsAboveCenter ) // if the tangent is above of the center, the center is below and right of the tangent, so subtract change in y
+            if( tangentIsAboveCenter ) { // if the tangent is above of the center, the center is below and right of the tangent, so subtract change in y
+                centerX = tangentPoint.x + xChange;
                 centerY = tangentPoint.y + yChange;
-            else // else the tangent is below the center, meaning center is above and left of it, so add change in y
+            }
+            else { // else the tangent is below the center, meaning center is above and left of it, so add change in y
                 centerY = tangentPoint.y - yChange;
-
-            if( centerIsBlowStart )
-                centerX = tangentPoint.x + xChange;
-            else
-                centerX = tangentPoint.x + xChange;
+                centerX = tangentPoint.x - xChange;
+            }
         }
 
         this.centerPoint = new Point2d( centerX, centerY );

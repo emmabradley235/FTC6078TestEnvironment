@@ -32,7 +32,7 @@ public class CircularLinearInterpolator {
 
         if( circleCreated ){ // set everything up as if there is a circle
             tangentIsAboveCenter = slopeAtStart > AdvMath.findLineSlope( startPoint, endPoint ); // if the slope needs to decrease, use the top of the circle, otherwise use the bottom to increase slope
-            this.circularComponent = new Circle( circleRadius, startPoint, slopeAtStart, startPoint.y > endPoint.y, tangentIsAboveCenter );
+            this.circularComponent = new Circle( circleRadius, startPoint, slopeAtStart, tangentIsAboveCenter );
             // now find the tangent line point (where the linear component and circle meet)
             this.tangentPoint = circularComponent.findStartOfTangentThatIntersects( endPoint, tangentIsAboveCenter ); // and get the full point
             // then draw the linear component between that point and the target point
