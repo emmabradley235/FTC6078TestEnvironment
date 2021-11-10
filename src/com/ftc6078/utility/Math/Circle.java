@@ -45,12 +45,16 @@ public class Circle {
             double xChange = radius * Math.cos( radialLineAngle );
             double yChange = radius * Math.sin( radialLineAngle );
 
-            if( centerIsBlowStart ) { // if the tangent is above of the center, the center is below and right of the tangent, so subtract change in y
+
+            if(!tangentIsAboveCenter)
+                centerX = tangentPoint.x - xChange;
+            else
                 centerX = tangentPoint.x + xChange;
+
+            if( centerIsBlowStart ) { // if the tangent is above of the center, the center is below and right of the tangent, so subtract change in y
                 centerY = tangentPoint.y - yChange;
             }
             else { // else the tangent is below the center, meaning center is above and left of it, so add change in y and inverse how we add x change
-                centerX = tangentPoint.x - xChange;
                 centerY = tangentPoint.y + yChange;
             }
         }
@@ -92,7 +96,7 @@ public class Circle {
 
         // return second derivative of a circle, aka:
         // ( f'(x, y)*(xCenter - x) + y - yCenter) / (y - yCenter)^2
-        return ( getSlopeAt( x, y ) * (centerPoint.x - x) + y - centerPoint.y ) / Math.pow(y - centerPoint.y, 2); // return the derivative of the circle
+        return -( getSlopeAt( x, y ) * (centerPoint.x - x) + y - centerPoint.y ) / Math.pow(y - centerPoint.y, 2); // return the derivative of the circle
     }
 
 
@@ -106,17 +110,17 @@ public class Circle {
         double s = Math.sqrt(  Math.pow(h, 2) - Math.pow(radius, 2)  );
         double radiusToTangentLocalAngle = Math.atan( s / radius );
 
-        System.out.println( Math.toDegrees(radiusToTangentLocalAngle) );
+       // System.out.println( Math.toDegrees(radiusToTangentLocalAngle) );
 
         if( !tangentIsAboveCenter )
             radiusToTangentLocalAngle = -radiusToTangentLocalAngle; // if tangent is below the center point, the angle should be below the center point also
         double centerToTargetAngle = Math.atan( (Yt - Yc)/(Xt - Xc) );
-        System.out.println( Math.toDegrees( centerToTargetAngle ) );
+        //System.out.println( Math.toDegrees( centerToTargetAngle ) );
 
         double centerToTangentAngle = centerToTargetAngle + radiusToTangentLocalAngle;
-        System.out.println( Math.toDegrees( centerToTangentAngle ) );
+        //System.out.println( Math.toDegrees( centerToTangentAngle ) );
         double tangentX = centerPoint.x + (radius * Math.cos( centerToTangentAngle ));
-        System.out.println( tangentX );
+        //System.out.println( tangentX );
 
         double tangentY = getY( tangentX, tangentIsAboveCenter );
 
