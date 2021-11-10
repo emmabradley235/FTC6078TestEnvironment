@@ -81,6 +81,9 @@ public abstract class AdvMath {
         return (num1 + num2); // the adding part of the average
     }
 
+    public static double average(double num1, double num2){
+        return (num1 + num2) / 2; // average it
+    }
 
     public static double interpolateBetween(double firstNumber, double secondNumber, double percentageLocationBetweenNumbers){ // outputs a number depending on where in between the two numbers via linear interpolation
         return ((secondNumber - firstNumber) * percentageLocationBetweenNumbers) + firstNumber; // offsets the difference to where the lower number is 0, then scale the higher number by the percentage between, then add the lower number back in

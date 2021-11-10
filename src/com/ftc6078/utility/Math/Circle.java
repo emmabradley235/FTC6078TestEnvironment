@@ -1,5 +1,6 @@
 package com.ftc6078.utility.Math;
 
+import com.ftc6078.utility.Math.interpolators.LinearInterpolator;
 import com.ftc6078.utility.Wrappers_General.Point2d;
 
 
@@ -115,6 +116,62 @@ public class Circle {
         return new Point2d( tangentX, tangentY );
     }
 
+    public LinearInterpolator getTangentLineBetween(boolean thisCircleTanIsAboveCenter, Circle otherCircle, boolean otherCircleTanIsAboveCenter){
+        double angleFromCenterToCenter = Math.atan( AdvMath.findLineSlope( this.centerPoint, otherCircle.centerPoint ) );
+        Point2d startPoint = new Point2d();
+        Point2d endPoint = new Point2d();
+
+
+        Point2d thisCirclePerpendicularPoint = new Point2d();
+        Point2d otherCirclePerpendicularPoint = new Point2d();
+
+        if( angleFromCenterToCenter == 0 ){ // if the slope from center to center is 0, make sure no div 0
+            thisCirclePerpendicularPoint = this.centerPoint;
+            otherCirclePerpendicularPoint = otherCircle.centerPoint;
+
+            if( thisCircleTanIsAboveCenter )
+                thisCirclePerpendicularPoint.y = this.radius;
+            else
+                thisCirclePerpendicularPoint.y = -this.radius;
+
+            if( otherCircleTanIsAboveCenter )
+                otherCirclePerpendicularPoint.y = otherCircle.radius;
+            else
+                otherCirclePerpendicularPoint.y = -otherCircle.radius;
+        }
+        else{ // otherwise find the perpendicular points normally
+           double angleToThisPerp = angleFromCenterToCenter;
+           double angleToOtherPerp = angleFromCenterToCenter;
+
+            if( thisCircleTanIsAboveCenter )
+                angleToThisPerp += Math.PI/2;
+            else
+                angleToThisPerp -= Math.PI/2;
+
+            if( otherCircleTanIsAboveCenter )
+                angleToOtherPerp += Math.PI/2;
+            else
+                angleToOtherPerp -= Math.PI/2;
+
+            thisCirclePerpendicularPoint.x = this.radius * Math.cos(angleToThisPerp);
+            thisCirclePerpendicularPoint.y = this.radius * Math.sin(angleToThisPerp);
+
+            otherCirclePerpendicularPoint.x = otherCircle.radius * Math.cos(angleToOtherPerp);
+            otherCirclePerpendicularPoint.y = otherCircle.radius * Math.sin(angleToOtherPerp);
+        }
+
+
+        double xBetweenPoints = AdvMath.average(thisCirclePerpendicularPoint.x, otherCirclePerpendicularPoint.x);
+
+       // LinearInterpolator interpBetweenPerps = new LinearInterpolator(thisCirclePerpendicularPoint, otherCirclePerpendicularPoint);
+        double yBetweenPoints = AdvMath.average(thisCirclePerpendicularPoint.y, otherCirclePerpendicularPoint.y);
+        Point2d midpoint = new Point2d(xBetweenPoints, yBetweenPoints);
+
+
+
+        return new LinearInterpolator( startPoint, endPoint );
+    }
+
 
     public Point2d getCenterPoint(){ return centerPoint; }
     public double getRadius(){ return radius; }
@@ -128,4 +185,6 @@ public class Circle {
     public String toString(){
         return "Circle( Radius = " + this.radius + ", Center = " + this.centerPoint + " )";
     }
+
+
 }
