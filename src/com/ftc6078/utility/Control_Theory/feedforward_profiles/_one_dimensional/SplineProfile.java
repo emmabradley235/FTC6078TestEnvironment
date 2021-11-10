@@ -39,19 +39,14 @@ public class SplineProfile extends FeedforwardProfile {
 
     @Override
     public double getSecondaryProfileTarget(double timestep){ // think velocity
-        double lazyValue = splineInterp.getLazyInterpolator().getSubinterpolatorForTimestep( timestep ).getSlopeAt(timestep); // get the lazy and predictive interpolator values
-        double predictiveValue = splineInterp.getPredictiveInterpolator().getSubinterpolatorForTimestep( timestep ).getSlopeAt(timestep);
-
-        return K2 * ( lazyValue + predictiveValue ) / 2;
+        return K2 * splineInterp.getSlopeAt( timestep );
     }
 
     @Override
-    public double getTertiaryProfileTarget(double timestep){ // think velocity
-        double lazyValue = splineInterp.getLazyInterpolator().getSubinterpolatorForTimestep( timestep ).getSlopeOfSlopeAt(timestep); // get the lazy and predictive interpolator values
-        double predictiveValue = splineInterp.getPredictiveInterpolator().getSubinterpolatorForTimestep( timestep ).getSlopeOfSlopeAt(timestep);
-
-        return K3 * ( lazyValue + predictiveValue ) / 2;
+    public double getTertiaryProfileTarget(double timestep){ // think acceleration
+        return K3 * splineInterp.getSlopeOfSlopeAt( timestep );
     }
+
 
     public SplineInterpolator getSplineInterpolator(){ return this.splineInterp; }
 }

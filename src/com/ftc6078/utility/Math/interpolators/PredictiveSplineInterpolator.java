@@ -1,6 +1,7 @@
 package com.ftc6078.utility.Math.interpolators;
 
 
+import com.ftc6078.utility.Wrappers_General.Point2d;
 import com.ftc6078.utility.Wrappers_General.TimestampedValue;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class PredictiveSplineInterpolator {
         this.timestampedSetpoints = new ArrayList<>(); // setup the array lists
         this.duration = timestampedSetpoints.get(timestampedSetpoints.size()-1).timestamp;
         for(TimestampedValue value : timestampedSetpoints) // put in the list but reversed
-            this.timestampedSetpoints.add(0, new TimestampedValue(invertTimestep(value.timestamp), value.value));
+            this.timestampedSetpoints.add( invertPointsTimestep(value) );
 
         this.interpolators = new ArrayList<>();
 
@@ -24,7 +25,7 @@ public class PredictiveSplineInterpolator {
         int interpCount = this.timestampedSetpoints.size() - 1;
         for(int i = 0; i < interpCount; i++){
             interpolators.add( new CircularLinearInterpolator( this.timestampedSetpoints.get(i), this.timestampedSetpoints.get(i+1), circleRadius, lastSlope ) ); // create a linear interpolator between each point
-            lastSlope = interpolators.get(i).getLinearComponentInterp().getSlope();
+            lastSlope = interpolators.get(i).getLinearComponent().getSlope();
 
             System.out.println(interpolators.get(i));
         }
@@ -59,7 +60,16 @@ public class PredictiveSplineInterpolator {
         return interpolators.get(slopeIndex);
     }
 
+    private TimestampedValue invertPointsTimestep(TimestampedValue pointToInvert){
+        return new TimestampedValue( invertTimestep(pointToInvert.timestamp), pointToInvert.value );
+    }
+
     private double invertTimestep(double normalTimestamp){
         return this.duration - normalTimestamp;
     }
+    public TimestampedValue invertValueToNormal(TimestampedValue point){
+        return new TimestampedValue( invertTimestep(point.timestamp), point.value);
+    }
+
+    public ArrayList<CircularLinearInterpolator> getInterpolators(){ return interpolators; }
 }

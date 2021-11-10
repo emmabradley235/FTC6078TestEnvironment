@@ -20,7 +20,7 @@ public class LazySplineInterpolator {
         int interpCount = timestampedSetpoints.size() - 1;
         for(int i = 0; i < interpCount; i++){
             interpolators.add( new CircularLinearInterpolator( timestampedSetpoints.get(i), timestampedSetpoints.get(i+1), circleRadius, lastSlope ) ); // create a linear interpolator between each point
-            lastSlope = interpolators.get(i).getLinearComponentInterp().getSlope();
+            lastSlope = interpolators.get(i).getLinearComponent().getSlope();
 
             //System.out.println(interpolators.get(i));
         }
@@ -52,4 +52,5 @@ public class LazySplineInterpolator {
     public CircularLinearInterpolator getInterpolator(int slopeIndex){
         return interpolators.get(slopeIndex);
     }
+    public ArrayList<CircularLinearInterpolator> getInterpolators(){ return interpolators; }
 }

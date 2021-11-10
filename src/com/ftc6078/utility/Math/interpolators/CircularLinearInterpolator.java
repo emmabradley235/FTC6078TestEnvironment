@@ -92,7 +92,7 @@ public class CircularLinearInterpolator {
 
 
     public Circle getCircularComponent(){ return circularComponent; }
-    public LinearInterpolator getLinearComponentInterp(){ return linearComponent; }
+    public LinearInterpolator getLinearComponent(){ return linearComponent; }
 
     public String toString(){
         return "CircularLinearInterp( " + circularComponent + ", " + linearComponent + " )";

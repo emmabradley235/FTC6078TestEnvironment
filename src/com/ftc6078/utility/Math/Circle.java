@@ -119,6 +119,12 @@ public class Circle {
     public Point2d getCenterPoint(){ return centerPoint; }
     public double getRadius(){ return radius; }
 
+    public Circle setCenterPoint(Point2d newCenter){
+        this.centerPoint = newCenter;
+
+        return this; // return this object to make for easier setting
+    }
+
     public String toString(){
         return "Circle( Radius = " + this.radius + ", Center = " + this.centerPoint + " )";
     }
