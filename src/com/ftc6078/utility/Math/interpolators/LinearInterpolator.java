@@ -1,4 +1,4 @@
-package com.ftc6078.utility.Math;
+package com.ftc6078.utility.Math.interpolators;
 
 
 import com.ftc6078.utility.Wrappers_General.Point2d;
@@ -7,6 +7,8 @@ import com.ftc6078.utility.Wrappers_General.TimestampedValue;
 public class LinearInterpolator {
     double slope;
     double offset;
+    Point2d startPoint = new Point2d();
+    Point2d endPoint = new Point2d();
 
 
     public LinearInterpolator(double startTime, double startValue, double endTime, double endValue){ // constructor, creates a line to interpolate from using points given
@@ -16,6 +18,9 @@ public class LinearInterpolator {
 
         double projectedStartValue = startTime * slope; // see what value no offset gives
         this.offset = startValue - projectedStartValue; // then compare that to the actual value, and set the offset equal to the difference
+
+        this.startPoint = new Point2d(startTime, startValue);
+        this.endPoint = new Point2d(endTime, endValue);
     }
     public LinearInterpolator(TimestampedValue startValue, TimestampedValue endValue){
         this(startValue.timestamp, startValue.value, endValue.timestamp, endValue.value);

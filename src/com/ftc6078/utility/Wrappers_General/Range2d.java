@@ -31,6 +31,9 @@ public class Range2d { // a class that neatly holds a minimum and maximum for a 
         return max;
     }
 
+    public boolean isNumWithinRange(double num ){
+        return min <= num && num <= max;
+    }
 
     public String toString(){
         return "range(" + min + ", " + max + ")";

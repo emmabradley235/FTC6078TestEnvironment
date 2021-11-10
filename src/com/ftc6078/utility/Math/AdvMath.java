@@ -118,4 +118,6 @@ public abstract class AdvMath {
         double projectedStartValue = refferencePoint.timestamp * slope; // see what value no offset gives
         return refferencePoint.value - projectedStartValue; // then compare that to the actual value, and the offset equals the difference
     }
+
+
 }

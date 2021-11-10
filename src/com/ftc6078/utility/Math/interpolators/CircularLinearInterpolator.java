@@ -1,6 +1,8 @@
-package com.ftc6078.utility.Math;
+package com.ftc6078.utility.Math.interpolators;
 
 
+import com.ftc6078.utility.Math.AdvMath;
+import com.ftc6078.utility.Math.Circle;
 import com.ftc6078.utility.Wrappers_General.Point2d;
 import com.ftc6078.utility.Wrappers_General.TimestampedValue;
 
@@ -30,13 +32,10 @@ public class CircularLinearInterpolator {
 
         if( circleCreated ){ // set everything up as if there is a circle
             tangentIsAboveCenter = slopeAtStart > AdvMath.findLineSlope( startPoint, endPoint ); // if the slope needs to decrease, use the top of the circle, otherwise use the bottom to increase slope
-           // System.out.println( "Tangent is above center? " + tangentIsAboveCenter ); // TODO: remove test prints once debugged
-            this.circularComponent = new Circle( circleRadius, startPoint, slopeAtStart, startPoint.y < endPoint.y, tangentIsAboveCenter );
-           // System.out.println( circularComponent );
+            this.circularComponent = new Circle( circleRadius, startPoint, slopeAtStart, tangentIsAboveCenter );
             // now find the tangent line point (where the linear component and circle meet)
             this.tangentPoint = circularComponent.findStartOfTangentThatIntersects( endPoint, tangentIsAboveCenter ); // and get the full point
             // then draw the linear component between that point and the target point
-          // System.out.println( "Linear Component Tangent point: " + tangentPoint );
 
             this.linearComponent = new LinearInterpolator( tangentPoint, endPoint );
         }
@@ -93,7 +92,7 @@ public class CircularLinearInterpolator {
 
 
     public Circle getCircularComponent(){ return circularComponent; }
-    public LinearInterpolator getLinearComponentInterp(){ return linearComponent; }
+    public LinearInterpolator getLinearComponent(){ return linearComponent; }
 
     public String toString(){
         return "CircularLinearInterp( " + circularComponent + ", " + linearComponent + " )";

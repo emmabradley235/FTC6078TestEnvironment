@@ -37,4 +37,17 @@ public class Point2d { // a class that neatly holds a minimum and maximum for a 
     public String toString(){
         return "(" + x + ", " + y + ")";
     }
+
+    public Point2d plus(Point2d other){
+        return new Point2d(x + other.x, y + other.y);
+    }
+    public Point2d minus(Point2d other){
+        return new Point2d(x - other.x, y - other.y);
+    }
+    public Point2d times(Point2d other){
+        return new Point2d(x * other.x, y * other.y);
+    }
+    public Point2d dividedBy(Point2d other){
+        return new Point2d(x / other.x, y / other.y);
+    }
 }

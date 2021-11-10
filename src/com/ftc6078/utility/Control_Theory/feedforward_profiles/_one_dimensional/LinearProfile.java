@@ -1,7 +1,7 @@
 package com.ftc6078.utility.Control_Theory.feedforward_profiles._one_dimensional;
 
 
-import com.ftc6078.utility.Math.LinearInterpolator;
+import com.ftc6078.utility.Math.interpolators.LinearInterpolator;
 
 public class LinearProfile extends FeedforwardProfile {
     LinearInterpolator pointInterp; // the thing that interpolates between the setpoints

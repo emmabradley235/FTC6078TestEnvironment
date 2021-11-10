@@ -7,19 +7,19 @@ public class Circle {
     Point2d centerPoint;
     double radius;
 
-    Circle(){
+    public Circle(){
         this.centerPoint = new Point2d();
         this.radius = 1;
     }
-    Circle( double radius ){
+    public Circle( double radius ){
         this.centerPoint = new Point2d();
         this.radius = radius;
     }
-    Circle( double radius, Point2d centerPoint ){
+    public Circle( double radius, Point2d centerPoint ){
         this.centerPoint = centerPoint;
         this.radius = radius;
     }
-    Circle( double radius, Point2d tangentPoint, double slopeAtTangentPoint, boolean centerIsBlowStart, boolean tangentIsAboveCenter ){
+    public Circle( double radius, Point2d tangentPoint, double slopeAtTangentPoint, boolean tangentIsAboveCenter ){
         this.radius = radius;
 
         double centerX, centerY;
@@ -36,26 +36,18 @@ public class Circle {
             // do trig to find the center point
             // img of math worked out can be found at:  https://bit.ly/2ZSD6Dd
 
-           double tangentLineAngle = Math.atan( slopeAtTangentPoint );
-/*
-            double xChange = ( radius * Math.sin((Math.PI/2) - tangentLineAngle) ) / slopeAtTangentPoint;
-            double yChange = ( radius * Math.cos((Math.PI/2) - tangentLineAngle) ) / slopeAtTangentPoint;
-*/
+            double tangentLineAngle = Math.atan( slopeAtTangentPoint );
             double radialLineAngle = tangentLineAngle - Math.PI/2;
             double xChange = radius * Math.cos( radialLineAngle );
             double yChange = radius * Math.sin( radialLineAngle );
 
-
-            if(!tangentIsAboveCenter)
-                centerX = tangentPoint.x - xChange;
-            else
+            if( tangentIsAboveCenter ) { // if the tangent is above of the center, the center is below and right of the tangent, so subtract change in y
                 centerX = tangentPoint.x + xChange;
-
-            if( centerIsBlowStart ) { // if the tangent is above of the center, the center is below and right of the tangent, so subtract change in y
-                centerY = tangentPoint.y - yChange;
-            }
-            else { // else the tangent is below the center, meaning center is above and left of it, so add change in y and inverse how we add x change
                 centerY = tangentPoint.y + yChange;
+            }
+            else { // else the tangent is below the center, meaning center is above and left of it, so add change in y
+                centerY = tangentPoint.y - yChange;
+                centerX = tangentPoint.x - xChange;
             }
         }
 
@@ -96,7 +88,7 @@ public class Circle {
 
         // return second derivative of a circle, aka:
         // ( f'(x, y)*(xCenter - x) + y - yCenter) / (y - yCenter)^2
-        return -( getSlopeAt( x, y ) * (centerPoint.x - x) + y - centerPoint.y ) / Math.pow(y - centerPoint.y, 2); // return the derivative of the circle
+        return ( getSlopeAt( x, y ) * (centerPoint.x - x) + y - centerPoint.y ) / Math.pow(y - centerPoint.y, 2); // return the derivative of the circle
     }
 
 
@@ -110,17 +102,13 @@ public class Circle {
         double s = Math.sqrt(  Math.pow(h, 2) - Math.pow(radius, 2)  );
         double radiusToTangentLocalAngle = Math.atan( s / radius );
 
-       // System.out.println( Math.toDegrees(radiusToTangentLocalAngle) );
 
         if( !tangentIsAboveCenter )
             radiusToTangentLocalAngle = -radiusToTangentLocalAngle; // if tangent is below the center point, the angle should be below the center point also
         double centerToTargetAngle = Math.atan( (Yt - Yc)/(Xt - Xc) );
-        //System.out.println( Math.toDegrees( centerToTargetAngle ) );
 
         double centerToTangentAngle = centerToTargetAngle + radiusToTangentLocalAngle;
-        //System.out.println( Math.toDegrees( centerToTangentAngle ) );
         double tangentX = centerPoint.x + (radius * Math.cos( centerToTangentAngle ));
-        //System.out.println( tangentX );
 
         double tangentY = getY( tangentX, tangentIsAboveCenter );
 
@@ -130,6 +118,12 @@ public class Circle {
 
     public Point2d getCenterPoint(){ return centerPoint; }
     public double getRadius(){ return radius; }
+
+    public Circle setCenterPoint(Point2d newCenter){
+        this.centerPoint = newCenter;
+
+        return this; // return this object to make for easier setting
+    }
 
     public String toString(){
         return "Circle( Radius = " + this.radius + ", Center = " + this.centerPoint + " )";
